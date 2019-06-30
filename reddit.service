@@ -1,0 +1,20 @@
+[Unit]
+Description=RedditApplication
+After=network.target
+
+[Service]
+PIDFile=/home/appuser/reddit/service.pid
+WorkingDirectory=/home/appuser/reddit/
+
+User=appuser
+Group=appuser
+
+OOMScoreAdjust=-100
+
+ExecStart=/usr/local/bin/puma exec service --daemon
+ExecStop=/usr/local/bin/puma exec service -S /home/appuser/reddit/service.state stop
+ExecReload=/usr/local/bin/puma exec service -S /home/appuser/reddit/service.state restart
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target 
